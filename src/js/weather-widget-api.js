@@ -27,7 +27,7 @@ function success(pos) {
             <div class="weather-conloc">
               <h3 class="weather-condition">${main}</h3>
             <p class="weather-location">
-              <svg class="icon" width="18" height="18">
+              <svg class="weather-location__icon">
                   <use href="./images/sprite.svg#icon-location"></use>
               </svg>
               ${name}
@@ -46,7 +46,45 @@ function success(pos) {
 }
 
 function error(err) {
-  console.warn(`ERROR(${err.code}): ${err.message}`);
+  const crd = pos.coords;
+  const city = 'Kyiv';
+
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      const weather = document.querySelector('.weather-counteiner');
+      const { name, weather: [ {main, icon } ], main: { temp } } = data;
+      const roundedTemp = Math.round(temp);
+
+      const date = new Date();
+      const dateString = date.toDateString();
+      const [dayOfWeek, month, dayOfMonth, year] = dateString.split(' ');
+
+      weather.innerHTML = `
+            <li class="list">
+            <div class="weather-info">
+            <h2 class="weather-temperature">${roundedTemp}&#176</h2>
+            <div class="weather-conloc">
+              <h3 class="weather-condition">${main}</h3>
+            <p class="weather-location">
+              <svg class="icon" width="18" height="18">
+                  <use href="./images/sprite.svg#icon-location"></use>
+              </svg>
+              ${name}
+            </p>
+            </div>
+          </div>
+          <div class="weather-icon">
+            <img src="https://openweathermap.org/img/wn/${icon}@4x.png" alt="${main}">
+          </div>
+          <p class="weather-data-time">${dayOfWeek} <br> ${dayOfMonth} ${month} ${year}</p>
+        </div>
+        </li>
+            `;
+    })
+    .catch(error => console.log(error));
 }
 
 const options = {

@@ -471,6 +471,17 @@ img {
   }
 }
 
+.weather-location__icon {
+  width: 18px;
+  height: 18px;
+}
+@media (min-width: 768px) {
+  .weather-location__icon {
+    width: 27px;
+    height: 27px;
+  }
+}
+
 .weather-icon {
   display: flex;
   justify-content: center;
