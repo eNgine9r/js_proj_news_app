@@ -88,6 +88,9 @@
 }
 
 .weather-location__icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 18px;
     height: 18px;
     @media (min-width: 768px) {
